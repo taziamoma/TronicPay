@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="row second-chart-list third-news-update">
+
+            <!-- User Greeting Start-->
+            <div class="col-xl-12 xl-50 news box-col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="header-top">
+                            <h5 class="m-0">
+                                Create Service Request
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+
+                        <form class="form theme-form" method="POST" action="{% url 'create-service-request' %}">
+                            {% csrf_token %}
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <div>
+                                            <label class="form-label" for="exampleFormControlTextarea4">Description</label>
+                                            {{ form.description }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="exampleFormControlSelect9">Request Category</label>
+                                            {{ form.category }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="exampleFormControlSelect9">Priority</label>
+                                            {{ form.priority }}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="card-footer text-end">
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                                <input class="btn btn-light" type="reset" value="Cancel">
+                            </div>
+                        </form>
+                    </div>
+                    <!-- User Greeting End-->
+
+
+                </div>
+                <!-- Container-fluid Ends-->
+            </div>
+{% endblock %}

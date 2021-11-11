@@ -1,0 +1,80 @@
+{% extends 'landlord_base.html' %}
+{% load static %}
+
+{% block body %}
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+    <div class="col-md-12 project-list">
+                <div class="card">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <ul class="nav nav-tabs border-tab" id="top-tab" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" id="top-home-tab" data-bs-toggle="tab" href="#top-home" role="tab" aria-controls="top-home" aria-selected="true"><i data-feather="target"></i>All</a></li>
+                        <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-bs-toggle="tab" href="#top-profile" role="tab" aria-controls="top-profile" aria-selected="false"><i data-feather="info"></i>Doing</a></li>
+                        <li class="nav-item"><a class="nav-link" id="contact-top-tab" data-bs-toggle="tab" href="#top-contact" role="tab" aria-controls="top-contact" aria-selected="false"><i data-feather="check-circle"></i>Done</a></li>
+                      </ul>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group mb-0 me-0"></div><a class="btn btn-primary" href="{% url 'new-unit' %}"> <i data-feather="plus-square"> </i>Add New Unit</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+        <div class="card">
+                  <div class="card-body">
+                    <div class="tab-content" id="top-tabContent">
+                      <div class="tab-pane fade show active" id="top-home" role="tabpanel" aria-labelledby="top-home-tab">
+                        <div class="row">
+
+                            {% for unit in units %}
+                          <div class="col-xxl-4 col-lg-6">
+                            <div class="project-box"><span class="badge badge-primary">{{ unit.status }}</span>
+                              <h6>Unit {{ forloop.counter }}</h6>
+                              <div class="media"><img class="img-20 me-1 rounded-circle" src="{% static 'assets/images/user/3.jpg' %}" alt="" data-original-title="" title="">
+                                <div class="media-body">
+                                  <p>
+                                      {{ unit.address }} <br />
+                                      {{ unit.state }}, {{ unit.city }} {{ unit.zipcode }}
+                                  </p>
+
+                                </div>
+                              </div>
+                              <p></p>
+                              <div class="row details">
+                                <div class="col-6"><span>Tenant </span></div>
+                                <div class="col-6 text-primary">{{ unit.getTenant }} </div>
+                                <div class="col-6"> <span>Rent Status</span></div>
+                                <div class="col-6 text-primary">5</div>
+                                <div class="col-6"> <span>Open Service Requests</span></div>
+                                <div class="col-6 text-primary">{{ unit.getOpenServiceRequests.count }}</div>
+                              </div>
+
+                              <div class="project-status mt-4">
+                                <div class="media mb-0">
+                                  <p>{{ unit.getTenant.lease_start }} </p>
+                                  <div class="media-body text-end"><span>{{ unit.getTenant.lease_end }}</span></div>
+                                </div>
+                                <div class="progress" style="height: 5px">
+                                  <div class="progress-bar-animated bg-primary progress-bar-striped" role="progressbar" style="width: {{ unit.getTenant.getLeasePercentage }}%" aria-valuenow="{{ unit.getTenant.getLeasePercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                  <a href="{% url 'delete-unit' unit.id %}" class="btn btn-danger" style="margin-top: 10px;">Delete</a>
+                                  {% if not unit.getTenant%}
+                                    <a href="{% url 'delete-unit' unit.id %}" class="btn btn-primary" style="margin-left: 5px; margin-top: 10px;">Add Tenant</a>
+                                  {% endif %}
+
+                              </div>
+
+                            </div>
+                          </div>
+                            {% endfor %}
+
+                        </div>
+                      </div>
+
+                  </div>
+                </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+{% endblock %}

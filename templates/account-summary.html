@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <!-- User Greeting Start-->
+        <div class="col-xl-12 xl-50 news box-col-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="header-top">
+                        <h5 class="m-0">Payments</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="tabbed-card">
+                            <ul class="pull-right nav nav-pills nav-primary" id="pills-clrtab1" role="tablist">
+                                <li class="nav-item"><a class="nav-link active" id="pills-clrhome-tab1"
+                                                        data-bs-toggle="pill" href="#pending-payments" role="tab"
+                                                        aria-controls="pending-payments" aria-selected="true">Pending
+                                    Payments</a></li>
+                                <li class="nav-item"><a class="nav-link" id="pills-clrprofile-tab1"
+                                                        data-bs-toggle="pill" href="#scheduled-payments" role="tab"
+                                                        aria-controls="scheduled-payments" aria-selected="false">Scheduled
+                                    Payments</a></li>
+                                <li class="nav-item"><a class="nav-link" id="pills-clrcontact-tab1"
+                                                        data-bs-toggle="pill" href="#payment-history" role="tab"
+                                                        aria-controls="payment-history" aria-selected="false">Payment
+                                    History</a></li>
+                                <li class="nav-item"><a class="nav-link" id="pills-clrcontact-tab1"
+                                                        data-bs-toggle="pill" href="#unprocessed-payments" role="tab"
+                                                        aria-controls="unprocessed-payments" aria-selected="false">Unprocessed
+                                    Payments</a></li>
+                                <li class="nav-item"><a class="nav-link" id="pills-clrcontact-tab1"
+                                                        data-bs-toggle="pill" href="#payment-accounts" role="tab"
+                                                        aria-controls="payment-accounts" aria-selected="false">Payment
+                                    Accounts</a></li>
+                            </ul>
+
+                            <div class="tab-content" id="pills-clrtabContent1">
+                                <!--  PENDING PAYMENTS START -->
+                                <div class="tab-pane fade show active" id="pending-payments" role="tabpanel"
+                                     aria-labelledby="pills-clrhome-tab1">
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card">
+                                                <div class="table-responsive">
+                                                    <table class="table table-xl">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Date Paid</th>
+                                                            <th>Amount</th>
+                                                            <th>Status</th>
+                                                            <th>Payment Type</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for invoice in pending %}
+                                                            <tr>
+                                                                <td>{{ invoice.date_paid }}</td>
+                                                                <td>${{ invoice.amount_paid }}</td>
+                                                                <td>{{ invoice.status }}</td>
+                                                                <td>{{ invoice.payment_type }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <!--  PENDING PAYMENTS END -->
+
+                                <!--  SCHEDULED PAYMENTS START -->
+                                <div class="tab-pane fade" id="scheduled-payments" role="tabpanel"
+                                     aria-labelledby="pills-clrprofile-tab1">
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card">
+                                                <div class="table-responsive">
+                                                    <table class="table table-xl">
+                                                        <thead>
+                                                        <tr>
+                                                <th>Date Created</th>
+                                                <th>Date Scheduled</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                                <th>Bank Account</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                           {% for invoice in scheduled %}
+                                                <tr>
+                                                    <td>{{ invoice.created }}</td>
+                                                    <td>{{ invoice.date_scheduled }}</td>
+                                                    <td>${{ invoice.amount_to_pay }}</td>
+                                                    <td>{{ invoice.status }}</td>
+                                                    <td>2011/04/25</td>
+
+                                                </tr>
+                                            {% endfor %}
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <!--  SCHEDULED PAYMENTS START -->
+
+                                <!--  PAYMENT HISTORY -->
+                                <div class="tab-pane fade" id="payment-history" role="tabpanel"
+                                     aria-labelledby="pills-clrcontact-tab1">
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card">
+                                                <div class="table-responsive">
+                                                    <table class="table table-xl">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Invoice Number</th>
+                                                            <th>Type</th>
+                                                            <th>Amount</th>
+                                                            <th>Status</th>
+                                                            <th>Date Paid</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for payment in payment_history %}
+                                                            <tr>
+                                                                <td>{{ payment.invoice.id }}</td>
+                                                                <td>{{ payment.payment_type }}</td>
+                                                                <td>${{ payment.amount_paid }}</td>
+                                                                <td>{{ payment.status }}</td>
+                                                                <td>{{ payment.date_paid }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <!--  PAYMENT HISTORY -->
+
+                                <!--  UNPROCESSED PAYMENTS START -->
+                                <div class="tab-pane fade" id="unprocessed-payments" role="tabpanel"
+                                     aria-labelledby="pills-clrcontact-tab1">
+                                    Unprocessed Payments
+
+                                </div>
+                                <!--  UNPROCESSED PAYMENTS END -->
+
+                                <!--  PAYMENT ACCOUNTS START -->
+                                <div class="tab-pane fade" id="payment-accounts" role="tabpanel"
+                                     aria-labelledby="pills-clrcontact-tab1">
+
+                                                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card">
+                                                <div class="table-responsive">
+                                                    <table class="table table-xl">
+                                                        <thead>
+                                                        <tr>
+                                                <th>Bank</th>
+                                                <th>Account Type</th>
+                                                <th>Account Number</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                            {% for bank in bank_accounts %}
+                                                <tr>
+                                                    <td>{{ bank.bank_name }}</td>
+                                                    <td>{{ bank.account_type }}</td>
+                                                    <td>Account number</td>
+                                                    <td>{{ bank.status }}</td>
+                                                    <td>Trash Can</td>
+
+                                                </tr>
+                                            {% endfor %}
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!--  PAYMENT ACCOUNTS START -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body p-0">
+
+                </div>
+                <div class="card-footer">
+
+                </div>
+            </div>
+        </div>
+        <!-- User Greeting End-->
+
+
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="row second-chart-list third-news-update">
+
+            <!-- User Greeting Start-->
+            <div class="col-xl-12 xl-50 news box-col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="header-top">
+                            <h5 class="m-0">Good Afternoon, {{ user.first_name }} {{ user.last_name }}</h5>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="news-update">
+                            <h6>Lease Info</h6>
+                            <span>Time remaining: {{ time_remaining }} days</span>
+                            <div class="progress">
+                                <div class="progress-bar-animated bg-primary progress-bar-striped" role="progressbar"
+                                     style="width: {{ percentage }}%" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+
+                            </div>
+                            <div class="container-fluid" style="margin-left: 0px; padding-left: 0px;">
+                                <div class="container-fluid" style="float: left; width: 90%;">{{ lease_start }}</div>
+                            <div class="container-fluid" style="float: right; width: 10%;" >{{ lease_end }} <br /></div>
+                            </div>
+
+
+                        </div>
+                        <div class="news-update">
+                            <h6><i class="fa fa-home"></i>Unit 1</h6>
+                            <span>{{ profile.address }}</span><br />
+                            <span>{{ profile.city }}, {{ profile.state }} {{ profile.zipcode }}</span>
+
+                        </div>
+                        <div class="news-update">
+                            <h3><i class="fa fa-usd"></i>500</h3><span>Amount Due</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- User Greeting End-->
+
+            <!-- User Greeting Start-->
+            <div class="col-xl-12 xl-50 news box-col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="header-top">
+                            <h5 class="m-0">Payment History</h5>
+                            <div class="card-header-right-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card">
+                                                <div class="table-responsive">
+                                                    <table class="table table-xl">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Invoice Number</th>
+                                                            <th>Type</th>
+                                                            <th>Amount</th>
+                                                            <th>Status</th>
+                                                            <th>Date Paid</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for payment in payment_history %}
+                                                            <tr>
+                                                                <td>{{ payment.invoice.id }}</td>
+                                                                <td>{{ payment.payment_type }}</td>
+                                                                <td>${{ payment.amount_paid }}</td>
+                                                                <td>{{ payment.status }}</td>
+                                                                <td>{{ payment.date_paid }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                        <div class="card-footer">
+                            <div class="bottom-btn"><a href="{% url 'account-summary' %}">More...</a></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- User Greeting Start-->
+
+
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+{% endblock %}

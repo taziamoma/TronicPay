@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="row second-chart-list third-news-update">
+
+            <!-- User Greeting Start-->
+            <div class="col-xl-12 xl-50 news box-col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="header-top">
+                            <h5 class="m-0">
+                                <a class="btn btn-primary btn-lg" href="{% url 'create-service-request' %}"
+                                   type="button" data-bs-toggle="tooltip"
+                                   title="btn btn-primary btn-lg">Create Service Request
+                                </a>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="table-responsive">
+                                        <table class="table table-xl">
+                                            <thead>
+                                            <tr>
+                                                <th>Category</th>
+                                                <th>Description</th>
+                                                <th>Priority</th>
+                                                <th>Status</th>
+                                                <th>Reported On</th>
+                                                <th>Completed On</th>
+                                                <th>Delete</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for request in service_requests %}
+                                                <tr>
+                                                    <td>{{ request.category }}</td>
+                                                    <td>{{ request.description }}</td>
+                                                    <td>{{ request.priority }}</td>
+                                                    <td>{{ request.status }}</td>
+                                                    <td>{{ request.created }}</td>
+                                                    <td>{{ request.completed_date }}</td>
+                                                    <td>
+                                                        <a class="btn btn-primary"
+                                                           href="{% url 'delete-service-request' request.id %}"
+                                                           type="button" data-bs-toggle="tooltip"
+                                                           title="btn btn-primary btn-lg">X</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- User Greeting End-->
+
+                </div>
+                <!-- Container-fluid Ends-->
+            </div>
+        </div>
+{% endblock %}

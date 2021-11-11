@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="row second-chart-list third-news-update">
+
+            <!-- User Greeting Start-->
+            <div class="col-xl-12 xl-50 news box-col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="header-top">
+                            <h5 class="m-0">
+                                Edit Profile
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+
+                        <form class="form theme-form" method="POST" action="{% url 'edit-tenant' %}">
+                            {% csrf_token %}
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div>
+                                            <label class="form-label" for="exampleFormControlSelect9">First Name</label>
+                                            {{ form.first_name }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="exampleFormControlSelect9">Last Name</label>
+                                            {{ form.last_name }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="exampleFormControlSelect9">Email</label>
+                                            {{ form.email }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                 <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="exampleFormControlSelect9">Phone</label>
+                                            {{ form.phone }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                 <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="exampleFormControlSelect9">Address</label>
+                                            {{ form.address }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="exampleFormControlSelect9">Zipcode</label>
+                                            {{ form.zipcode }}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="card-footer text-end">
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                                <input class="btn btn-light" type="reset" value="Cancel">
+                            </div>
+                        </form>
+                    </div>
+                    <!-- User Greeting End-->
+
+
+                </div>
+                <!-- Container-fluid Ends-->
+            </div>
+{% endblock %}

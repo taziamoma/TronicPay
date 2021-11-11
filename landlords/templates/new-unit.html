@@ -1,0 +1,62 @@
+{% extends 'landlord_base.html' %}
+{% load static %}
+
+{% block body %}
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form theme-form">
+                            <div class="row">
+                                <div class="col">
+                                    <form method="POST" action="{% url 'new-unit' %}">
+                                        {% csrf_token %}
+                                        <div class="mb-3">
+                                            <label>Address</label>
+                                            {{ form.address }}
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label>City</label>
+                                        {{ form.city }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label>State</label>
+                                        {{ form.state }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label>Zipcode</label>
+                                        {{ form.zipcode }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="text-end"><button class="btn btn-success me-3" type="submit" href="#">Add</button><a
+                                            class="btn btn-danger" href="{% url 'units' %}">Cancel</a></div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+{% endblock %}
