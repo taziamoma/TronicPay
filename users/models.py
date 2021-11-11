@@ -63,13 +63,12 @@ class CustomUser(AbstractUser):
         return self.email
 
 
-class Tenant(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
-    id = models.AutoField(primary_key=True)
+class Tenancy(models.Model):
+    unit = models.ForeignKey("landlords.Unit", on_delete=models.CASCADE)
+    tenant = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    created = models.DateTimeField(null=True, blank=True)
     lease_start = models.DateField(null=True, blank=True)
     lease_end = models.DateField(null=True, blank=True)
-    landlord = models.ForeignKey('Landlord', on_delete=models.SET_NULL, related_name='landlord', null=True, blank=True)
-    unit = models.ForeignKey('landlords.Unit', on_delete=models.SET_NULL, related_name='units', null=True, blank=True)
 
     def getTimeRemaining(self):
         current_date = datetime.date.today()
@@ -84,14 +83,3 @@ class Tenant(models.Model):
         current_from_start = (current_date - self.lease_start).days
         percentage = int((current_from_start) / (total_days) * 100)
         return percentage
-
-    def __str__(self):
-        return str(self.first_name) + " " + str(self.last_name)
-
-
-class Landlord(models.Model):
-    id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
-
-    def __str__(self):
-        return str(self.first_name) + " " + str(self.last_name)

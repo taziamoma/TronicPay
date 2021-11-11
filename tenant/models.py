@@ -31,7 +31,7 @@ class Invoice(models.Model):
     created = models.DateTimeField(null=True, blank=True, default=timezone.now)
     status = models.CharField(max_length=9, choices=STATUS_CHOICES, null=True, blank=True, default=PENDING)
     scheduled_pay_date = models.DateTimeField(null=True, blank=True)
-    tenant = models.ForeignKey('users.Tenant', on_delete=models.CASCADE, related_name='invoicess')
+    tenant = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE, related_name='invoices')
 
     def __str__(self):
         return str(self.id) + " - " + str(self.tenant)
@@ -52,7 +52,7 @@ class ScheduledPayments(models.Model):
     date_scheduled = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, null=True, blank=True)
     invoice = models.ForeignKey('Invoice', on_delete=models.CASCADE, related_name='invoice')
-    tenant = models.ForeignKey('users.Tenant', on_delete=models.CASCADE, related_name='tenant')
+    tenant = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE, related_name='tenant')
 
     def __str__(self):
         return str(self.id) + " - " + str(self.tenant)
@@ -80,8 +80,8 @@ class Payments(models.Model):
     amount_paid = models.FloatField(null=True, blank=True)
     date_paid = models.DateTimeField(null=True, blank=True, default=timezone.now)
     payment_type = models.CharField(max_length=12, choices=PAYMENT_TYPE_CHOICES, null=True, blank=True)
-    invoice = models.ForeignKey('Invoice', on_delete=models.CASCADE, related_name='paymentss')
-    tenant = models.ForeignKey('users.Tenant', on_delete=models.CASCADE)
+    invoice = models.ForeignKey('Invoice', on_delete=models.CASCADE, related_name='payments')
+    tenant = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, null=True, blank=True)
 
     def __str__(self):
@@ -109,7 +109,7 @@ class BankAccounts(models.Model):
     account_type = models.CharField(
         max_length=12, choices=ACCOUNT_TYPE_CHOICES, null=True, blank=True)
     status = models.CharField(max_length=6, choices=STATUS_CHOICES, null=True, blank=True)
-    tenant = models.ForeignKey('users.Tenant', on_delete=models.CASCADE, related_name='bankaccountss')
+    tenant = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE, related_name='bankaccounts')
 
     def __str__(self):
         return str(self.id) + " - " + self.bank_name +" - " + str(self.tenant)
@@ -161,8 +161,8 @@ class ServiceRequests(models.Model):
     completed_date = models.DateTimeField(null=True, blank=True)
     priority = models.CharField(max_length=11, choices=PRIORITY_CHOICES,
                               null=True, blank=True, default='low')
-    tenant = models.ForeignKey('users.Tenant', on_delete=models.CASCADE, related_name='servicerequestss')
-    unit = models.ForeignKey('landlords.Unit', on_delete=models.CASCADE, related_name='servicerequestss')
+    tenant = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE, related_name='servicerequests')
+    unit = models.ForeignKey('landlords.Unit', on_delete=models.CASCADE, related_name='servicerequests')
 
     def __str__(self):
         return str(self.id) + " - " + str(self.tenant)

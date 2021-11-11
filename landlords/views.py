@@ -1,6 +1,5 @@
 from django.shortcuts import render,  redirect
 from .models import Unit
-from users.models import Landlord, Tenant
 from django.contrib.auth.decorators import login_required
 from .forms import CreateNewUnitForm
 

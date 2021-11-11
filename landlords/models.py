@@ -21,15 +21,11 @@ class Unit(models.Model):
     zipcode = models.IntegerField(null=True, blank=True)
     status = models.CharField(max_length=8, choices=STATUS_CHOICES, default=INACTIVE, null=True, blank=True)
     created = models.DateField(null=True, blank=True)
-    landlord = models.ForeignKey('users.Landlord', on_delete=models.CASCADE, related_name='unitss')
+    landlord = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE, related_name='units')
+    tenants = models.ManyToManyField('users.CustomUser', related_name='tenancies')
 
-    def getTenant(self):
-        tenant = users.models.Tenant.objects.get(unit=self)
-        return tenant
-
-    def getOpenServiceRequests(self):
-        service_requests = tenant.models.ServiceRequests.objects.filter(unit=self).exclude(status="COMPLETE")
-        return service_requests
+    # def getOpenServiceRequests(self):
+    #     pass
 
     def __str__(self):
         return str(self.address)
