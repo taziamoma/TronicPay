@@ -1,6 +1,6 @@
 from django.utils import timezone
+from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import User
 import users.models
 import tenant.models
 
@@ -20,9 +20,9 @@ class Unit(models.Model):
     state = models.CharField(max_length=255, null=True, blank=True)
     zipcode = models.IntegerField(null=True, blank=True)
     status = models.CharField(max_length=8, choices=STATUS_CHOICES, default=INACTIVE, null=True, blank=True)
-    created = models.DateField(null=True, blank=True)
-    landlord = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE, related_name='units')
-    tenants = models.ManyToManyField('users.CustomUser', related_name='tenancies')
+    created = models.DateTimeField(null=True, blank=True, default=timezone.now)
+    landlord = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='units')
+    tenant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
 
     # def getOpenServiceRequests(self):
     #     pass

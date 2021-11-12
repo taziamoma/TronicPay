@@ -5,6 +5,6 @@ import tenant
 urlpatterns = [
     path("login/", views.loginUser, name="login"),
     path("logout/", views.logoutUser, name="logout"),
-    path("edit-tenant/", views.EditProfileView, name="edit-tenant"),
+    path("edit-profile/", views.EditProfileView, name="edit-profile"),
 
 ]

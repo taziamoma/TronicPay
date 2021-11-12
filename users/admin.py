@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from .models import CustomUser, Tenancy
 
 
 class CustomUserAdmin(UserAdmin):
@@ -23,4 +23,4 @@ class CustomUserAdmin(UserAdmin):
 
 # Register your models here.
 admin.site.register(CustomUser)
-
+admin.site.register(Tenancy)

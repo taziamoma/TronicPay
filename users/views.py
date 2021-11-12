@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.models import User
+from users.models import CustomUser
 from django.contrib import messages
 from .forms import EditProfileForm
 from django.contrib.auth.decorators import login_required
@@ -15,11 +15,11 @@ def loginUser(request):
         return redirect('dashboard')
 
     if request.method == "POST":
-        username = request.POST['username']
+        email = request.POST['email']
         password = request.POST['password']
 
         try:
-            user = User.objects.get(username=username)
+            user = CustomUser.objects.get(email=email)
         except:
             messages.error(request, 'Username does not exist')
 
@@ -40,14 +40,14 @@ def logoutUser(request):
 
 @login_required(login_url='login')
 def EditProfileView(request):
-    tenant = Tenant.objects.get(username=request.user.username) #get user tenant information
-    form = EditProfileForm(instance=tenant) #get the instance of the user tenant
+    profile = CustomUser.objects.get(email=request.user.email) #get user tenant information
+    form = EditProfileForm(instance=profile) #get the instance of the user tenant
 
     if request.method == "POST":
-        form = EditProfileForm(request.POST, instance=tenant)
+        form = EditProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('edit-tenant')
+            return redirect('edit-profile')
 
     context = {'form': form}
     return render(request, 'users/edit-profile.html', context)

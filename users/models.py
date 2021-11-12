@@ -66,7 +66,7 @@ class CustomUser(AbstractUser):
 class Tenancy(models.Model):
     unit = models.ForeignKey("landlords.Unit", on_delete=models.CASCADE)
     tenant = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    created = models.DateTimeField(null=True, blank=True)
+    created = models.DateTimeField(null=True, blank=True, default=timezone.now)
     lease_start = models.DateField(null=True, blank=True)
     lease_end = models.DateField(null=True, blank=True)
 
@@ -83,3 +83,6 @@ class Tenancy(models.Model):
         current_from_start = (current_date - self.lease_start).days
         percentage = int((current_from_start) / (total_days) * 100)
         return percentage
+
+    def __str__(self):
+        return str(self.tenant.first_name) + " " + str(self.tenant.last_name) + " - " + str(self.unit.address)
