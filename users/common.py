@@ -92,6 +92,11 @@ class Unit(models.Model):
         service_requests = ServiceRequests.objects.filter(unit=self).exclude(status="COMPLETE")
         return service_requests
 
+    def getServiceRequests(self):
+        from tenant.models import ServiceRequests
+        service_requests = ServiceRequests.objects.filter(unit=self)
+        return service_requests
+
     def getLeasePercentage(self):
         tenancy = Tenancy.objects.get(unit=self)
         return tenancy.getLeasePercentage()

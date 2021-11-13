@@ -30,5 +30,7 @@ class AddNewTenantForm(UserCreationForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({'class':'form-control', 'name': name, 'required': 'required'})
+        self.fields['lease_start'].widget.attrs.update({'class': 'datepicker-here form-control digits', 'name': 'lease_start', 'data-language': 'en'})
+        self.fields['lease_end'].widget.attrs.update({'class': 'datepicker-here form-control digits', 'name': 'lease_end', 'data-language': 'en'})
 
 

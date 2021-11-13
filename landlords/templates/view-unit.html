@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="product-page-details">
+                                <h3>{{ unit.address }}</h3>
+                            </div>
+                            <div class="product-price">$1500
+                                <em>per month</em>
+                            </div>
+                            <br/>
+
+                            <div>
+                                <table class="product-page-width">
+                                    <tbody>
+                                    <tr>
+                                        <td><b>Tenant &nbsp;&nbsp;&nbsp;:</b></td>
+                                        <td>{{ unit.tenant.first_name }} {{ unit.tenant.last_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Rent Status &nbsp;&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;</b></td>
+                                        <td class="txt-success">Up to date</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Open Service Requests &nbsp;&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;</b></td>
+                                        <td>{{ unit.getOpenServiceRequests.count }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <b>Lease Info:</b>
+                                <div class="project-status mt-4">
+                                    <div class="media mb-0">
+                                        <p>{{ unit.getLeaseStart }} </p>
+                                        <div class="media-body text-end">
+                                            <span>{{ unit.getLeaseEnd }}</span></div>
+                                    </div>
+                                    <div class="progress" style="height: 5px">
+                                        <div class="progress-bar-animated bg-primary progress-bar-striped"
+                                             role="progressbar" style="width: {{ unit.getLeasePercentage }}%"
+                                             aria-valuenow="{{ unit.getLeasePercentage }}" aria-valuemin="0"
+                                             aria-valuemax="100"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <hr>
+                            <div class="m-t-15">
+                                <a href="{% url 'add-tenant-to-unit' unit.id %}" class="btn btn-primary m-r-10"
+                                   type="button" title=""><i class="fa fa-plus-square-o"></i>Add Tenant
+                                </a>
+                                <a class="btn btn-success m-r-10" type="button" title=""><i class="fa fa-edit"></i>Edit
+                                </a>
+                                <a href="{% url 'delete-unit' unit.id %}" class="btn btn-secondary"><i class="fa fa-times"></i>Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="card">
+            <div class="row product-page-main">
+                <div class="col-sm-12">
+                    <ul class="nav nav-tabs border-tab mb-0" id="top-tab" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" id="top-home-tab" data-bs-toggle="tab"
+                                                href="#top-home" role="tab" aria-controls="top-home"
+                                                aria-selected="false">Service Requests</a>
+                            <div class="material-border"></div>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-bs-toggle="tab"
+                                                href="#top-profile" role="tab" aria-controls="top-profile"
+                                                aria-selected="false">Video</a>
+                            <div class="material-border"></div>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" id="contact-top-tab" data-bs-toggle="tab"
+                                                href="#top-contact" role="tab" aria-controls="top-contact"
+                                                aria-selected="true">Details</a>
+                            <div class="material-border"></div>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" id="brand-top-tab" data-bs-toggle="tab"
+                                                href="#top-brand" role="tab" aria-controls="top-brand"
+                                                aria-selected="true">Brand</a>
+                            <div class="material-border"></div>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="top-tabContent">
+                        <div class="tab-pane fade active show" id="top-home" role="tabpanel"
+                             aria-labelledby="top-home-tab">
+
+                            <div class="card-header">
+                                <h5 class="pull-left"></h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="tabbed-card">
+                                    <ul class="pull-right nav nav-tabs border-tab nav-primary" id="top-tab2"
+                                        role="tablist">
+                                        <li class="nav-item"><a class="nav-link active" id="top-home-tab2"
+                                                                data-bs-toggle="tab" href="#open-requests" role="tab"
+                                                                aria-controls="open-service-requests"
+                                                                aria-selected="true"><i class="fa fa-circle-o"></i>Open</a></li>
+                                        <li class="nav-item"><a class="nav-link" id="profile-top-tab2"
+                                                                data-bs-toggle="tab" href="#top-profile2" role="tab"
+                                                                aria-controls="top-profile2" aria-selected="false"><i class="fa fa-dot-circle-o"></i>In Progress</a></li>
+                                        <li class="nav-item"><a class="nav-link" id="contact-top-tab2"
+                                                                data-bs-toggle="tab" href="#top-contact2" role="tab"
+                                                                aria-controls="top-contact2" aria-selected="false"><i class="fa fa-circle"></i>Complete</a></li>
+                                    </ul>
+                                <!-- OPEN SERVICE REQUESTS -->
+                                    <div class="tab-content" id="top-tabContent2">
+                                        <!-- OPEN SERVICE REQUESTS -->
+                                        <div class="tab-pane fade active show" id="open-requests" role="tabpanel"
+                                             aria-labelledby="open-service-requests">
+                                            <div class="table-responsive">
+                                                <table class="table table-xl">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Category</th>
+                                                        <th>Description</th>
+                                                        <th>Priority</th>
+                                                        <th>Created</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for service in pending_service_requests %}
+                                                        <tr>
+                                                            <td>{{ service.category }}</td>
+                                                            <td>{{ service.description }}</td>
+                                                            <td>{{ service.priority }}</td>
+                                                            <td>{{ service.created }}</td>
+                                                            <td>{{ service.status }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- OPEN SERVICE REQUESTS -->
+
+
+                                        <div class="tab-pane fade" id="top-profile2" role="tabpanel"
+                                             aria-labelledby="profile-top-tab">
+                                            <div class="table-responsive">
+                                                <table class="table table-xl">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Category</th>
+                                                        <th>Description</th>
+                                                        <th>Priority</th>
+                                                        <th>Created</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for service in in_progress_service_requests %}
+                                                        <tr>
+                                                            <td>{{ service.category }}</td>
+                                                            <td>{{ service.description }}</td>
+                                                            <td>{{ service.priority }}</td>
+                                                            <td>{{ service.created }}</td>
+                                                            <td>{{ service.status }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- IN PROGRESS SERVICE REQUESTS -->
+                                        <!-- CLOSED SERVICE REQUESTS -->
+                                        <div class="tab-pane fade" id="top-contact2" role="tabpanel"
+                                             aria-labelledby="contact-top-tab">
+                                            <div class="table-responsive">
+                                                <table class="table table-xl">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Category</th>
+                                                        <th>Description</th>
+                                                        <th>Priority</th>
+                                                        <th>Created</th>
+                                                        <th>Completed Date</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for service in completed_service_requests %}
+                                                        <tr>
+                                                            <td>{{ service.category }}</td>
+                                                            <td>{{ service.description }}</td>
+                                                            <td>{{ service.priority }}</td>
+                                                            <td>{{ service.created }}</td>
+                                                            <td>{{ service.completed_date }}</td>
+                                                            <td>{{ service.status }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- CLOSED SERVICE REQUESTS -->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="top-profile" role="tabpanel" aria-labelledby="profile-top-tab">
+                            video
+                        </div>
+                        <div class="tab-pane fade" id="top-contact" role="tabpanel" aria-labelledby="contact-top-tab">
+                            detail
+                        </div>
+                        <div class="tab-pane fade" id="top-brand" role="tabpanel" aria-labelledby="brand-top-tab">
+                            brand
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

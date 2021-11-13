@@ -22,6 +22,20 @@ def UnitsView(request):
     context = {'title': title, 'units': units}
     return render(request, 'units.html', context)
 
+@login_required(login_url='login')
+@landlord_required
+def UnitDetailView(request, pk):
+    title = 'Unit'
+    unit = Unit.objects.get(id=pk)
+    pending_service_requests = unit.getServiceRequests().filter(status="PENDING")
+    in_progress_service_requests = unit.getServiceRequests().filter(status="IN_PROGRESS")
+    completed_service_requests = unit.getServiceRequests().filter(status="COMPLETE")
+
+    context = {'title':title, 'unit': unit, 'pending_service_requests': pending_service_requests, 'in_progress_service_requests':in_progress_service_requests, 'completed_service_requests': completed_service_requests }
+
+    return render(request, 'view-unit.html', context)
+
+
 
 @login_required(login_url='login')
 @landlord_required

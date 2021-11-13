@@ -6,88 +6,105 @@
     <div class="container-fluid">
         <div class="row second-chart-list third-news-update">
 
-            <!-- User Greeting Start-->
-            <div class="col-xl-12 xl-50 news box-col-6">
-                <div class="card">
+
+            <div class="edit-profile">
+              <div class="row">
+                <div class="col-xl-4">
+                  <div class="card">
                     <div class="card-header">
-                        <div class="header-top">
-                            <h5 class="m-0">
-                                Edit Profile
-                            </h5>
+                      <h4 class="card-title mb-0">My Profile</h4>
+                      <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="row mb-2">
+                          <div class="profile-title">
+                            <div class="media">                        <img class="img-70 rounded-circle" alt="" src="../assets/images/user/7.jpg">
+                              <div class="media-body">
+                                <h5 class="mb-1">{{ request.user.first_name }} {{ request.user.last_name }}</h5>
+                              </div>
+                            </div>
+                          </div>
                         </div>
+                        <div class="mb-3">
+                          <label class="form-label">Email-Address</label>
+                          <input class="form-control" placeholder="your-email@domain.com">
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label">Password</label>
+                          <input class="form-control" type="password" value="password">
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label">Website</label>
+                          <input class="form-control" placeholder="http://Uplor .com">
+                        </div>
+                        <div class="form-footer">
+                          <button class="btn btn-primary btn-block">Save</button>
+                        </div>
+                      </form>
                     </div>
-                    <div class="card-body p-0">
-
-                        <form class="form theme-form" method="POST" action="{% url 'edit-profile' %}">
-                            {% csrf_token %}
-                            <div class="card-body">
-
-                                <div class="row">
-                                    <div class="col">
-                                        <div>
-                                            <label class="form-label" for="exampleFormControlSelect9">First Name</label>
-                                            {{ form.first_name }}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="exampleFormControlSelect9">Last Name</label>
-                                            {{ form.last_name }}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="exampleFormControlSelect9">Email</label>
-                                            {{ form.email }}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                 <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="exampleFormControlSelect9">Phone</label>
-                                            {{ form.phone }}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                 <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="exampleFormControlSelect9">Address</label>
-                                            {{ form.address }}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="exampleFormControlSelect9">Zipcode</label>
-                                            {{ form.zipcode }}
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                            <div class="card-footer text-end">
-                                <button class="btn btn-primary" type="submit">Submit</button>
-                                <input class="btn btn-light" type="reset" value="Cancel">
-                            </div>
-                        </form>
-                    </div>
-                    <!-- User Greeting End-->
-
-
+                  </div>
                 </div>
-                <!-- Container-fluid Ends-->
-            </div>
+
+                <div class="col-xl-8">
+                  <form class="card" method="POST" action="{% url 'edit-profile' %}">
+                      {% csrf_token %}
+                    <div class="card-header">
+                      <h4 class="card-title mb-0">Edit Profile</h4>
+                      <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                          <div class="mb-3">
+                            <label class="form-label">First Name</label>
+                            {{ form.first_name }}
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                          <div class="mb-3">
+                            <label class="form-label">Last Name</label>
+                            {{ form.last_name }}
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="mb-3">
+                            <label class="form-label">Address</label>
+                            {{ form.address }}
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4">
+                          <div class="mb-3">
+                            <label class="form-label">City</label>
+                            {{ form.city }}
+                          </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                          <div class="mb-3">
+                            <label class="form-label">Zip Code</label>
+                            {{ form.zipcode }}
+                          </div>
+                        </div>
+                          <div class="col-sm-6 col-md-3">
+                          <div class="mb-3">
+                            <label class="form-label">State</label>
+                            {{ form.state }}
+                          </div>
+                        </div>
+                          <div class="col-sm-6 col-md-4">
+                          <div class="mb-3">
+                            <label class="form-label">Phone</label>
+                            {{ form.phone }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-footer text-end">
+                      <button class="btn btn-primary" type="submit">Update Profile</button>
+                    </div>
+                  </form>
+                </div>
+
+
+
 {% endblock %}
