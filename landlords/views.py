@@ -1,10 +1,12 @@
 from django.shortcuts import render,  redirect
-from .models import Unit
 from django.contrib.auth.decorators import login_required
-from .forms import CreateNewUnitForm
+from .forms import CreateNewUnitForm, AddNewTenantForm
+from users.common import CustomUser, Tenancy, Unit
+from users.decorators import landlord_required
 
 # Create your views here.
 @login_required(login_url='login')
+@landlord_required
 def LandlordDashView(request):
     title = "Landlord Dashboard"
     context = {'title': title}
@@ -12,20 +14,21 @@ def LandlordDashView(request):
 
 
 @login_required(login_url='login')
+@landlord_required
 def UnitsView(request):
     title = "My Units"
-    landlord = Landlord.objects.get(user=request.user)  # returns the landlord object of the user
-    units = Unit.objects.filter(landlord=landlord)  # returns the units owned by the landlord
+    units = Unit.objects.filter(landlord=request.user)  # returns the units owned by the landlord
 
     context = {'title': title, 'units': units}
     return render(request, 'units.html', context)
 
 
 @login_required(login_url='login')
+@landlord_required
 def MyTenantsView(request):
     title = "My Tenants"
-    landlord = Landlord.objects.get(user=request.user)  # returns the landlord object of the user
-    tenants = Tenant.objects.filter(landlord=landlord)
+    units = Unit.objects.filter(landlord=request.user)
+    tenants = CustomUser.objects.filter(tenancies__landlord=request.user).distinct() #distinct prevents duplicate rows
 
     context = {'title': title}
     if tenants is not None:
@@ -34,9 +37,10 @@ def MyTenantsView(request):
     return render(request, 'my_tenants.html', context)
 
 @login_required(login_url='login')
+@landlord_required
 def NewUnitView(request):
     title = "Add New Unit"
-    landlord = Landlord.objects.get(user=request.user)  # returns the landlord object of the user
+    landlord = request.user  # returns the landlord object of the user
     form = CreateNewUnitForm
 
     if request.method == 'POST':
@@ -52,6 +56,32 @@ def NewUnitView(request):
     context = {'title': title, 'form':form}
     return render(request, 'new-unit.html', context)
 
+@login_required(login_url='login')
+@landlord_required
 def DeleteUnitView(request, pk):
     Unit.objects.get(id=pk).delete()
     return redirect('units')
+
+@login_required(login_url='login')
+@landlord_required
+def AddTenantToUnit(request, pk):
+    title = "Add New Tenant"
+    unit = Unit.objects.get(id=pk)
+    form = AddNewTenantForm
+
+    if request.method == 'POST':
+        form = AddNewTenantForm(request.POST)
+        if form.is_valid():
+            lease_start = form.cleaned_data['lease_start']
+            lease_end = form.cleaned_data['lease_end']
+            tenant = form.save()
+            tenancy = Tenancy(unit=unit, tenant = tenant, lease_start=lease_start, lease_end=lease_end).save()
+
+            unit.tenant = tenant
+            unit.save()
+
+
+            return redirect('units')
+
+    context = {'title': title, 'form': form}
+    return render(request, 'add-tenant-to-unit.html', context)

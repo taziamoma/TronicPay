@@ -9,7 +9,8 @@
             <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
         </div>
         <div class="logo-icon-wrapper">
-            <a href="index.html"><img class="img-fluid" src="{% static  'assets/images/logo/logo-icon.png' %}" alt=""></a></div>
+            <a href="index.html"><img class="img-fluid" src="{% static  'assets/images/logo/logo-icon.png' %}"
+                                      alt=""></a></div>
         <nav class="sidebar-main">
             <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
             <div id="sidebar-menu">
@@ -20,17 +21,33 @@
                             <span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                     </li>
 
-                    <li class="sidebar-list">
-                        <label class="badge badge-success">2</label><a class="sidebar-link sidebar-title" href="#"><i
-                            data-feather="home"></i><span>General</span></a>
-                        <ul class="sidebar-submenu">
-                            <li><a href="{% url 'dashboard' %}">Home</a></li>
-                            <li><a href="{% url 'payment' %}">Make a Payment</a></li>
-                            <li><a href="{% url 'recurring-payment' %}">Recurring Payments</a></li>
-                            <li><a href="{% url 'account-summary' %}">Account Summary</a></li>
-                            <li><a href="{% url 'service-request' %}">Service Requests</a></li>
-                        </ul>
-                    </li>
+                    {% if request.user.is_tenant == True%}
+                        <li class="sidebar-list">
+                            <label class="badge badge-success"></label><a class="sidebar-link sidebar-title"href="#"><i
+                                data-feather="home"></i><span>Tenant</span></a>
+                            <ul class="sidebar-submenu">
+                                <li><a href="{% url 'dashboard' %}">Home</a></li>
+                                <li><a href="{% url 'payment' %}">Make a Payment</a></li>
+                                <li><a href="{% url 'recurring-payment' %}">Recurring Payments</a></li>
+                                <li><a href="{% url 'account-summary' %}">Account Summary</a></li>
+                                <li><a href="{% url 'service-request' %}">Service Requests</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+
+                    {% if request.user.is_landlord %}
+                        <li class="sidebar-list">
+                            <label class="badge badge-success"></label><a class="sidebar-link sidebar-title"
+                                                                           href="#"><i
+                                data-feather="home"></i><span>Landlord</span></a>
+                            <ul class="sidebar-submenu">
+                                <li><a href="{% url 'units' %}">My Units</a></li>
+                                <li><a href="{% url 'my-tenants' %}">My Tenants</a></li>
+                            </ul>
+                        </li>
+
+                    {% endif %}
+
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
                             data-feather="airplay"></i><span>Account</span></a>
                         <ul class="sidebar-submenu">

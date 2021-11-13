@@ -1,4 +1,4 @@
-{% extends 'landlord_base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block body %}
@@ -10,9 +10,9 @@
                     <div class="card-body">
                         <div class="form theme-form">
                             <div class="row">
+                                <form method="POST" action="{% url 'new-unit' %}">
+                                    {% csrf_token %}
                                 <div class="col">
-                                    <form method="POST" action="{% url 'new-unit' %}">
-                                        {% csrf_token %}
                                         <div class="mb-3">
                                             <label>Address</label>
                                             {{ form.address }}

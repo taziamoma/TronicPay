@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils import timezone
-import users.models
+from users.common import CustomUser, Tenancy, Unit
 
 #for importing the settings.AUTH_USER_MODEL
 from django.conf import settings
@@ -163,7 +163,7 @@ class ServiceRequests(models.Model):
     priority = models.CharField(max_length=11, choices=PRIORITY_CHOICES,
                               null=True, blank=True, default='low')
     tenant = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='servicerequests')
-    unit = models.ForeignKey('landlords.Unit', on_delete=models.CASCADE, related_name='servicerequests')
+    unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name='servicerequests')
 
     def __str__(self):
         return str(self.id) + " - " + str(self.tenant)

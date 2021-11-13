@@ -3,14 +3,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import ScheduledPayments, Payments, BankAccounts, ServiceRequests
-from users.models import CustomUser, Tenancy
-from landlords.models import Unit
+from users.common import CustomUser, Tenancy, Unit
 from .forms import CreateServiceRequestForm
+from users.decorators import tenant_required
 
 
 # Create your views here.
 
 @login_required(login_url='login')
+@tenant_required
 def DashboardView(request):
     title = "Dashboard"
     profile = CustomUser.objects.get(email=request.user.email)  # get the user tenant
@@ -37,6 +38,7 @@ def DashboardView(request):
 
 
 @login_required(login_url='login')
+@tenant_required
 def PaymentView(request):
     title = "Payment"
     context = {'title': title}
@@ -44,6 +46,7 @@ def PaymentView(request):
 
 
 @login_required(login_url='login')
+@tenant_required
 def AccountSummaryView(request):
     profile = CustomUser.objects.get(email=request.user.email)  # get the user profile
     scheduled = ScheduledPayments.objects.filter(tenant=profile, date_scheduled__isnull=False,
@@ -59,6 +62,7 @@ def AccountSummaryView(request):
 
 
 @login_required(login_url='login')
+@tenant_required
 def ServiceRequestView(request):
     title = "Service Request"
     profile = CustomUser.objects.get(email=request.user.email)  # get the user profile
@@ -68,6 +72,7 @@ def ServiceRequestView(request):
 
 
 @login_required(login_url='login')
+@tenant_required
 def CreateServiceRequestView(request):
     form = CreateServiceRequestForm()
     profile = CustomUser.objects.get(email=request.user.email)  # get the user profile
@@ -88,12 +93,14 @@ def CreateServiceRequestView(request):
 
 
 @login_required(login_url='login')
+@tenant_required
 def DeleteServiceRequestView(request, pk):
     ServiceRequests.objects.get(id=pk).delete()
     return redirect('service-request')
 
 
 @login_required(login_url='login')
+@tenant_required
 def RecurringPaymentView(request):
     title = "Recurring Payments"
     context = {'title': title}
