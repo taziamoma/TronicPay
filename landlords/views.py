@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import CreateNewUnitForm, AddNewTenantForm
 from users.common import CustomUser, Tenancy, Unit
 from users.decorators import landlord_required
+from tenant.models import ServiceRequests
 
 # Create your views here.
 @login_required(login_url='login')
@@ -27,11 +28,12 @@ def UnitsView(request):
 def UnitDetailView(request, pk):
     title = 'Unit'
     unit = Unit.objects.get(id=pk)
+    service_requests = unit.getServiceRequests().order_by('-created')
     pending_service_requests = unit.getServiceRequests().filter(status="PENDING")
     in_progress_service_requests = unit.getServiceRequests().filter(status="IN_PROGRESS")
     completed_service_requests = unit.getServiceRequests().filter(status="COMPLETE")
 
-    context = {'title':title, 'unit': unit, 'pending_service_requests': pending_service_requests, 'in_progress_service_requests':in_progress_service_requests, 'completed_service_requests': completed_service_requests }
+    context = {'title':title, 'unit': unit, 'pending_service_requests': pending_service_requests, 'in_progress_service_requests':in_progress_service_requests, 'completed_service_requests': completed_service_requests, 'service_requests': service_requests }
 
     return render(request, 'view-unit.html', context)
 
@@ -99,3 +101,18 @@ def AddTenantToUnit(request, pk):
 
     context = {'title': title, 'form': form}
     return render(request, 'add-tenant-to-unit.html', context)
+
+@login_required(login_url='login')
+@landlord_required
+def ViewTenantView(request, pk):
+    title = "View Tenant"
+    tenant = CustomUser.objects.get(id=pk)
+    tenancy = Tenancy.objects.filter(tenant=tenant)
+    units = Unit.objects.filter(tenant=tenant)
+    service_requests = ServiceRequests.objects.filter(tenant=tenant).order_by('-created')
+    pending_service_requests = service_requests.filter(status="PENDING")
+    in_progress_service_requests = service_requests.filter(status="IN_PROGRESS")
+    completed_service_requests = service_requests.filter(status="COMPLETE")
+
+    context = {'title': title, 'tenant': tenant, 'tenancy':tenancy, 'units': units, 'service_requests':service_requests, 'pending_service_requests': pending_service_requests, 'in_progress_service_requests':in_progress_service_requests,'completed_service_requests':completed_service_requests  }
+    return render(request, 'view-tenant.html', context)

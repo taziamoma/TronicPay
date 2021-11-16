@@ -8,5 +8,6 @@ urlpatterns = [
     path("units/delete/<str:pk>", views.DeleteUnitView, name="delete-unit"),
     path("units/add-tenant/<str:pk>", views.AddTenantToUnit, name="add-tenant-to-unit"),
     path("units/unit/<str:pk>", views.UnitDetailView, name="view-unit"),
+    path("tenants/tenant/<str:pk>", views.ViewTenantView, name="view-tenant"),
 
 ]

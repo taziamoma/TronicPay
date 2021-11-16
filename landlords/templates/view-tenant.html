@@ -5,12 +5,13 @@
     <!-- Container-fluid starts-->
     <div class="container-fluid">
         <div>
+
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body">
                             <div class="product-page-details">
-                                <h3>{{ unit.address }}</h3>
+                                <h3>{{ tenant.first_name }} {{ tenant.last_name }}</h3>
                             </div>
                             <div class="product-price">$1500
                                 <em>per month</em>
@@ -56,14 +57,9 @@
 
                             <hr>
                             <div class="m-t-15">
-                                {% if unit.tenant == None %}
-                                    <a href="{% url 'add-tenant-to-unit' unit.id %}" class="btn btn-primary m-r-10"
-                                       type="button" title=""><i class="fa fa-plus-square-o"></i>Add Tenant
-                                    </a>
-                                {% endif %}
                                 <a class="btn btn-success m-r-10" type="button" title=""><i class="fa fa-edit"></i>Edit
                                 </a>
-                                <a href="{% url 'delete-unit' unit.id %}" class="btn btn-secondary"><i
+                                <a href="" class="btn btn-secondary"><i
                                         class="fa fa-times"></i>Delete</a>
                             </div>
                         </div>
@@ -71,6 +67,67 @@
                 </div>
 
             </div>
+
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="tab-content" id="top-tabContent">
+                        <div class="tab-pane fade show active" id="top-home" role="tabpanel"
+                             aria-labelledby="top-home-tab">
+                            <div class="row">
+                             <div class="product-page-details">
+                                <h4>{{ tenant.first_name }} {{ tenant.last_name }}'s units</h4>
+                            </div>
+
+                                {% for unit in units %}
+                                        <div class="col-xxl-4 col-lg-6">
+                                            <div class="project-box"><span class="badge badge-primary">{{ unit.status }}</span>
+                                                <h6><a href="{% url 'view-unit' unit.id %}">Unit {{ unit.id }}</a></h6>
+
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <p>
+                                                            {{ unit.address }} <br/>
+                                                            {{ unit.state }}, {{ unit.city }} {{ unit.zipcode }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <p></p>
+
+                                                <div class="row details">
+                                                    <div class="col-6"><span>Rent Status</span></div>
+                                                    <div class="col-6 text-primary">5</div>
+                                                    <div class="col-6"><span>Open Service Requests</span></div>
+                                                    <div class="col-6 text-primary">{{ unit.getOpenServiceRequests.count }}</div>
+                                                </div>
+
+                                                <div class="project-status mt-4">
+                                                    <div class="media mb-0">
+                                                        <p>{{ unit.getLeaseStart }} </p>
+                                                        <div class="media-body text-end">
+                                                            <span>{{ unit.getLeaseEnd }}</span></div>
+                                                    </div>
+                                                    <div class="progress" style="height: 5px">
+                                                        <div class="progress-bar-animated bg-primary progress-bar-striped"
+                                                             role="progressbar"
+                                                             style="width: {{ unit.getLeasePercentage }}%"
+                                                             aria-valuenow="{{ unit.getLeasePercentage }}" aria-valuemin="0"
+                                                             aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
         </div>
         <div class="card">
             <div class="row product-page-main">
@@ -135,6 +192,7 @@
                                                 <table class="table table-xl">
                                                     <thead>
                                                     <tr>
+                                                        <th>Unit</th>
                                                         <th>Category</th>
                                                         <th>Description</th>
                                                         <th>Priority</th>
@@ -145,6 +203,7 @@
                                                     <tbody>
                                                     {% for service in pending_service_requests %}
                                                         <tr>
+                                                            <td><a href="{% url 'view-unit' service.unit.id %}">{{ service.unit }}</a></td>
                                                             <td>{{ service.category }}</td>
                                                             <td>{{ service.description }}</td>
                                                             <td>{{ service.priority }}</td>
@@ -166,6 +225,7 @@
                                                 <table class="table table-xl">
                                                     <thead>
                                                     <tr>
+                                                        <th>Unit</th>
                                                         <th>Category</th>
                                                         <th>Description</th>
                                                         <th>Priority</th>
@@ -176,6 +236,7 @@
                                                     <tbody>
                                                     {% for service in in_progress_service_requests %}
                                                         <tr>
+                                                            <td><a href="{% url 'view-unit' service.unit.id %}">{{ service.unit }}</a></td>
                                                             <td>{{ service.category }}</td>
                                                             <td>{{ service.description }}</td>
                                                             <td>{{ service.priority }}</td>
@@ -196,6 +257,7 @@
                                                 <table class="table table-xl">
                                                     <thead>
                                                     <tr>
+                                                        <th>Unit</th>
                                                         <th>Category</th>
                                                         <th>Description</th>
                                                         <th>Priority</th>
@@ -207,6 +269,7 @@
                                                     <tbody>
                                                     {% for service in completed_service_requests %}
                                                         <tr>
+                                                            <td><a href="{% url 'view-unit' service.unit.id %}">{{ service.unit }}</a></td>
                                                             <td>{{ service.category }}</td>
                                                             <td>{{ service.description }}</td>
                                                             <td>{{ service.priority }}</td>
@@ -228,6 +291,7 @@
                                                 <table class="table table-xl">
                                                     <thead>
                                                     <tr>
+                                                        <th>Unit</th>
                                                         <th>Category</th>
                                                         <th>Description</th>
                                                         <th>Priority</th>
@@ -239,6 +303,7 @@
                                                     <tbody>
                                                     {% for service in service_requests %}
                                                         <tr>
+                                                            <td><a href="{% url 'view-unit' service.unit.id %}">{{ service.unit }}</a></td>
                                                             <td>{{ service.category }}</td>
                                                             <td>{{ service.description }}</td>
                                                             <td>{{ service.priority }}</td>

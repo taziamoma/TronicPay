@@ -30,7 +30,7 @@
                             {% for tenant in tenants %}
                           <div class="col-xxl-4 col-lg-6">
                             <div class="project-box"><span class="badge badge-primary">{{ tenant.unit.status }}</span>
-                              <h6>{{ tenant.first_name }} {{ tenant.last_name }}</h6>
+                                <h6><a href="{% url 'view-tenant' tenant.id %}">{{ tenant.first_name }} {{ tenant.last_name }}</a></h6>
                               <div class="media"><img class="img-20 me-1 rounded-circle" src="{% static 'assets/images/user/3.jpg' %}" alt="" data-original-title="" title="">
                                 <div class="media-body">
                                   <p>
