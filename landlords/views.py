@@ -1,6 +1,6 @@
 from django.shortcuts import render,  redirect
 from django.contrib.auth.decorators import login_required
-from .forms import CreateNewUnitForm, AddNewTenantForm
+from .forms import CreateNewUnitForm, AddNewTenantForm, AddExistingTenantForm
 from users.common import CustomUser, Tenancy, Unit
 from users.decorators import landlord_required
 from tenant.models import ServiceRequests
@@ -83,23 +83,34 @@ def DeleteUnitView(request, pk):
 def AddTenantToUnit(request, pk):
     title = "Add New Tenant"
     unit = Unit.objects.get(id=pk)
-    form = AddNewTenantForm
+    new_tenant_form = AddNewTenantForm
+    existing_tenant_form = AddExistingTenantForm(user=request.user)
 
     if request.method == 'POST':
-        form = AddNewTenantForm(request.POST)
-        if form.is_valid():
-            lease_start = form.cleaned_data['lease_start']
-            lease_end = form.cleaned_data['lease_end']
-            tenant = form.save()
+        new_tenant_form = AddNewTenantForm(request.POST)
+        existing_tenant_form = AddExistingTenantForm(request.POST, user=request.user)
+
+        if new_tenant_form.is_valid():
+            lease_start = new_tenant_form.cleaned_data['lease_start']
+            lease_end = new_tenant_form.cleaned_data['lease_end']
+            tenant = new_tenant_form.save()
             tenancy = Tenancy(unit=unit, tenant = tenant, lease_start=lease_start, lease_end=lease_end).save()
 
             unit.tenant = tenant
             unit.save()
-
-
             return redirect('units')
 
-    context = {'title': title, 'form': form}
+        elif existing_tenant_form.is_valid():
+            tenant = existing_tenant_form.cleaned_data['tenant']
+            lease_start = existing_tenant_form.cleaned_data['lease_start']
+            lease_end = existing_tenant_form.cleaned_data['lease_end']
+            tenancy = Tenancy(unit=unit, tenant = tenant, lease_start=lease_start, lease_end=lease_end).save()
+
+            unit.tenant = tenant
+            unit.save()
+            return redirect('units')
+
+    context = {'title': title, 'new_tenant_form': new_tenant_form, 'existing_tenant_form': existing_tenant_form}
     return render(request, 'add-tenant-to-unit.html', context)
 
 @login_required(login_url='login')
