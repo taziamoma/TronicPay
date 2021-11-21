@@ -1,2 +1,12 @@
 .env
 server.env
+**/__pycache__
+page_data.pickle
+**/*~
+server/static
+server/static/*
+server/media
+server/media/*
+.vscode/*
+server/__pypackages__
+server/__pypackages__/*
