@@ -1,0 +1,24 @@
+version: "3"
+services:
+  db:
+    image: postgres:13
+    container_name: TronicPay_db
+    volumes:
+      - TronicPay-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+  server:
+    container_name: TronicPay_server
+    build:
+      context: ./server
+    command: pdm run dev
+    volumes:
+      - ./:/app/
+    ports:
+      - "0.0.0.0:8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - server.env
+volumes:
+  TronicPay-db: null
