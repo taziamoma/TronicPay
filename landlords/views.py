@@ -1,6 +1,6 @@
 from django.shortcuts import render,  redirect
 from django.contrib.auth.decorators import login_required
-from .forms import CreateNewUnitForm, AddNewTenantForm, AddExistingTenantForm
+from .forms import CreateNewUnitForm, AddNewTenantForm, AddExistingTenantForm, CreateNewTenantForm
 from users.common import CustomUser, Tenancy, Unit
 from users.decorators import landlord_required
 from tenant.models import ServiceRequests
@@ -77,6 +77,27 @@ def NewUnitView(request):
 def DeleteUnitView(request, pk):
     Unit.objects.get(id=pk).delete()
     return redirect('units')
+
+
+@login_required(login_url='login')
+@landlord_required
+def AddNewTenant(request):
+    title = "Add New Tenant"
+    context = {'title': title}
+    form = CreateNewTenantForm
+
+    if request.method == 'POST':
+        form = CreateNewTenantForm(request.POST)
+
+        if form.is_valid():
+            tenant = form.save()
+
+            return redirect('units')
+
+
+    context = {'title': title, 'form': form}
+
+    return render(request, 'new-tenant.html', context)
 
 @login_required(login_url='login')
 @landlord_required

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Create New Tenant</h3>
+                        <div class="form theme-form">
+                            <form method="POST">
+                                {% csrf_token %}
+                                {% for field in form %}
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label>{{ field.label }}</label>
+                                                {{ field }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="text-end">
+                                            <button class="btn btn-success me-3" type="submit" href="#">Add</button>
+                                            <a class="btn btn-danger" href="{% url 'units' %}">Cancel</a></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+{% endblock %}

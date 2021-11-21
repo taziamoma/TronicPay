@@ -16,8 +16,8 @@ def DashboardView(request):
     title = "Dashboard"
     profile = CustomUser.objects.get(email=request.user.email)  # get the user tenant
 
-    lease_start = Tenancy.objects.get(tenant=profile).lease_start
-    lease_end = Tenancy.objects.get(tenant=profile).lease_end
+    # lease_start = Tenancy.objects.get(tenant=profile).lease_start
+    # lease_end = Tenancy.objects.get(tenant=profile).lease_end
     current_date = datetime.date.today()
 
     time_remaining = 0
@@ -25,14 +25,14 @@ def DashboardView(request):
     payment_history = 0
 
     context = {'title':title}
-    if lease_start is not None or lease_end is not None:
-        total_days = (lease_end - lease_start).days
-        current_from_start = (current_date - lease_start).days
-        time_remaining = total_days - current_from_start
-        percentage = int((current_from_start / total_days) * 100)
-        payment_history = Payments.objects.filter(tenant=profile).order_by('-date_paid')
-        context = {'title': title, 'lease_start': lease_start, 'lease_end': lease_end, 'percentage': percentage,
-                   'time_remaining': time_remaining, 'payment_history': payment_history, 'profile': profile}
+    # if lease_start is not None or lease_end is not None:
+    #     total_days = (lease_end - lease_start).days
+    #     current_from_start = (current_date - lease_start).days
+    #     time_remaining = total_days - current_from_start
+    #     percentage = int((current_from_start / total_days) * 100)
+    #     payment_history = Payments.objects.filter(tenant=profile).order_by('-date_paid')
+    #     context = {'title': title, 'lease_start': lease_start, 'lease_end': lease_end, 'percentage': percentage,
+    #                'time_remaining': time_remaining, 'payment_history': payment_history, 'profile': profile}
 
     return render(request, 'index.html', context)
 
