@@ -1,0 +1,38 @@
+[project]
+authors = [
+  {name = "Utsob Roy", email = "roy@utsob.me"},
+]
+dependencies = [
+  "django~=3.2",
+  "djangorestframework~=3.12",
+  "gunicorn~=20.1",
+  "Pillow~=8.4",
+  "psycopg2-binary~=2.9",
+]
+description = ""
+dynamic = ["classifiers"]
+license = {text = "MIT"}
+name = "TronicPay"
+requires-python = ">=3.8"
+version = ""
+
+[project.urls]
+homepage = ""
+
+[build-system]
+build-backend = "pdm.pep517.api"
+requires = ["pdm-pep517"]
+
+[tool]
+[tool.pdm]
+[[tool.pdm.source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[tool.pdm.scripts]
+dev = {cmd = "bash -c 'pdm sync; pdm run ./manage.py runserver 0.0.0.0:8000'"}
+devserver.cmd = "gunicorn -w 4 -b unix:/app/server/socket/ExitStack.sock -b 0.0.0.0:8000 exitstack.wsgi:application"
+devserver.env = {DJANGO_SETTINGS_MODULE = "exitstack.settings.dev"}
+production.cmd = "gunicorn -w 4 -b unix:/app/server/socket/ExitStack.sock -b 0.0.0.0:8000 exitstack.wsgi:application"
+production.env = {DJANGO_SETTINGS_MODULE = "exitstack.settings.production"}
